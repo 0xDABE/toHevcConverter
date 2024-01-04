@@ -4,28 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Objects;
 
 public class Converter {
-
-    public static int currentFileBR = 0;
-    public static int dur = 0;
-    public static long size = 0L;
+    public static boolean deleteFlag = false;
+    public static boolean isCurHEVC = false;
 
     public static void run(){
         File WD = new File(System.getProperty("user.dir"));
-        File[] files = Objects.requireNonNull(WD.listFiles());
-        for (File file : files){
-            if (file.getName().endsWith(".mp4")){
-                dur = getDuration(file.getName());
-                size = file.length();
-                currentFileBR = (int)(size * 8 / dur) / 1024;
-                exec(file.getName());
-            }
-        }
+        recDir.exec(WD);
     }
 
-    public static void exec(String filename){
+    public static void exec(String filename, int dur, long size, int currentFileBR){
+        if (isCurHEVC){
+            ColoredMessage.yellowLn("Skipped (already HEVC)");
+            return;
+        }
         String newFileName = filename.substring(0, filename.lastIndexOf(".")) + "_HEVC.mp4";
         String[] command = new String[]{"ffmpeg", "-i", filename, "-c:v",
                 "hevc_nvenc", "-preset", "p7", "-b:v",
@@ -46,6 +39,7 @@ public class Converter {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             while (reader.readLine() != null) {}
             process.destroy();
+            if (deleteFlag) if (isConverted(newFileName)) new File(filename).delete();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,16 +53,20 @@ public class Converter {
             Process process = processBuilder.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String line;
+            String line, durationLine = null;
             while ((line = reader.readLine()) != null) {
-                if (line.contains("Duration")) {
-                    break;
+
+                if (line.contains("Duration")) durationLine = line;
+                if (line.toLowerCase().contains("video: hevc")){
+                    isCurHEVC = true;
+                    return 1;
                 }
             }
-            if (line == null) {
+            if (durationLine == null) {
                 System.err.println("Not a video: " + filename);
                 System.exit(-1);
             }
+            line = durationLine;
             String hours, minutes, seconds;
             hours = line.split("[,.:]")[1].trim();
             minutes = line.split("[,.:]")[2].trim();
@@ -82,5 +80,9 @@ public class Converter {
             System.exit(-1);
         }
         return timeInSec;
+    }
+
+    public static boolean isConverted(String filename){
+        return new File(filename).length() != 0;
     }
 }

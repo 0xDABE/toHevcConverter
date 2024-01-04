@@ -1,11 +1,23 @@
 import com.dalibe.ColoredMessage;
 import com.dalibe.Nargs;
 
+import java.io.IOException;
+
 public class Main {
 
     public static float K = 1.5F;
 
     public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "taskkill", "/IM", "ffmpeg.exe", "/f");
+            try{
+                System.out.println("Closing ffmpeg...");
+                processBuilder.start();
+                System.out.println("Exiting...");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }));
         String line;
         Nargs nargs = new Nargs(args, "<c>:<d><-delete>");
         while ((line = nargs.getOpt()) != null) {
@@ -18,10 +30,11 @@ public class Main {
                         System.exit(-1);
                     }
                 }
+                case "d", "-delete" -> Converter.deleteFlag = true;
             }
-            ColoredMessage.blueLn("Launching with K=" + K);
-            Converter.run();
         }
+        ColoredMessage.blueLn("Launching with K=" + K);
+        Converter.run();
     }
 
     public static void help() {

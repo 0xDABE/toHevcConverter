@@ -11,15 +11,11 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "taskkill", "/IM", "ffmpeg.exe", "/f");
             try{
-                System.out.println("Closing ffmpeg...");
                 processBuilder.start();
-                System.out.println("Exiting...");
-            }catch (IOException e){
-                e.printStackTrace();
-            }
+            }catch (IOException ignored){}
         }));
         String line;
-        Nargs nargs = new Nargs(args, "<c>:<d><-delete>");
+        Nargs nargs = new Nargs(args, "<c>:<d><-delete><h><-help>");
         while ((line = nargs.getOpt()) != null) {
             switch (line) {
                 case "c" -> {
@@ -31,6 +27,7 @@ public class Main {
                     }
                 }
                 case "d", "-delete" -> Converter.deleteFlag = true;
+                case "h", "-help" -> help();
             }
         }
         ColoredMessage.blueLn("Launching with K=" + K);
@@ -61,5 +58,6 @@ public class Main {
                                                 *******************
                                                 *  toh by 0xDABE  *
                                                 *******************""");
+        System.exit(0);
     }
 }

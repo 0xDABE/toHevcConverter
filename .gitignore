@@ -1,0 +1,6 @@
+out/
+toHevcConverter.iml
+.idea
+src/META-INF
+!**/src/main/**/out/
+!**/src/test/**/out/

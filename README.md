@@ -2,11 +2,11 @@
 
 # Requirements
 ### For build (Maven)
-- [JDK 21](https://www.oracle.com/uk/java/technologies/downloads/) or higher
+- [JDK 20](https://www.oracle.com/uk/java/technologies/downloads/) or higher
 - [ffmpeg](https://github.com/FFmpeg/FFmpeg) binary in OS PATH or in same folder
 
 ### For launching from jar
-- [Java Runtime 21](https://www.java.com/en/download/manual.jsp) (for Jar in release, JDK no needed for jar)
+- [Java Runtime 20](https://www.java.com/en/download/manual.jsp) (for Jar in release, JDK no needed for jar)
 - [ffmpeg](https://github.com/FFmpeg/FFmpeg) binary in OS PATH or in same folder
 
 

@@ -47,13 +47,7 @@ public class Main {
                 Usage:
                     toh <options>
                     
-                Options:
-                    -p, --player <Path>: Set media player's path to run with it
-                    -h, --help: Help flag. Show this message.
-                    -u, -U, --username <NAME>: Use custom username in trk-in command prompts
-                    -c, -C, --coefficient <0-1_float_value>: Set time limit to consider it is done
-                    -o, --output, --trackerFileName <FileName>: Set custom filename for trackerFile
-                    -e , -i, --extra, --info : Extra info flag. Shows extra info
+                ...lazy
                     
                                                 *******************
                                                 *  toh by 0xDABE  *

@@ -4,11 +4,12 @@
 ### For build (Maven)
 - [JDK 20](https://www.oracle.com/uk/java/technologies/downloads/) or higher
 - [ffmpeg](https://github.com/FFmpeg/FFmpeg) binary in OS PATH or in same folder
+- `ColoredMessage` and `Nargs` from [Dalibe](https://github.com/0xDABE/Dalibe) 
 
 ### For launching from jar
 - [Java Runtime 20](https://www.java.com/en/download/manual.jsp) (for Jar in release, JDK no needed for jar)
 - [ffmpeg](https://github.com/FFmpeg/FFmpeg) binary in OS PATH or in same folder
-
+- `ColoredMessage` and `Nargs` from [Dalibe](https://github.com/0xDABE/Dalibe)
 
 # Instructions
 ### Build

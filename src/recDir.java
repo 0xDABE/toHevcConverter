@@ -1,7 +1,9 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class recDir {
+    public static ArrayList<Data> datas = new ArrayList<>();
 
     public static void exec(File dir) {
         if (dir.isDirectory()) for (String item : Objects.requireNonNull(dir.list()))
@@ -12,7 +14,7 @@ public class recDir {
                 long size  = dir.length();
                 int dur = Converter.getDuration(dir.getPath()),
                         curBR = (int)(size * 8 / dur) / 1024;
-                Converter.exec(dir.getPath(), dur, size, curBR);
+                datas.add(new Data(dir.getPath(), dur, size, curBR));
             }
         }
     }
